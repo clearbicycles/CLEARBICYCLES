@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zakázkové MTB rámy – ručně vyrobené pro tvůj styl jízdy.</title>
-  <meta name="description" content="Ručně vyráběná zakázková MTB kola z oceli. Český výrobce – precizní design, FEM analýza, maximální funkčnost.">
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="description" content="Ručně vyráběná zakázková MTB kola z oceli. Český výrobce – precizní design, FEM analýza, maximální funkčnost." />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png" />
 
   <style>
     body {
@@ -17,53 +18,75 @@
 
     header {
       background: silver;
-      padding: 10px 20px;
+      padding: 5px 10px;
       position: sticky;
       top: 0;
       z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     header .logo-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-shrink: 0;
     }
 
     header img {
-      height: 100px;
+      height: 60px;
       max-width: 100%;
     }
 
+    /* Horizontální scroll menu */
     nav {
-      margin-top: 10px;
-      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      flex-grow: 1;
+      margin-left: 10px;
     }
 
     nav a {
-      margin: 0 15px;
+      display: inline-block;
+      padding: 10px 15px;
       color: #111;
       text-decoration: none;
       font-weight: bold;
+      white-space: nowrap;
+      user-select: none;
+      transition: color 0.3s ease;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a:focus {
       color: #e63946;
+      outline: none;
+    }
+
+    /* Scrollbar styl (pouze webkit-based pro hezčí vzhled) */
+    nav::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    nav::-webkit-scrollbar-thumb {
+      background-color: #999;
+      border-radius: 3px;
     }
 
     .hero {
       background: url("images/hero-bike.jpg") center/cover no-repeat;
       color: white;
       text-align: center;
-      padding: 120px 20px;
+      padding: 120px 20px 80px;
     }
 
     .hero h2 {
       font-size: 2.5em;
       margin-bottom: 10px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
 
     .hero p {
       font-size: 1.2em;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     .container {
@@ -72,7 +95,7 @@
       margin: auto;
     }
 
-    h2 {
+    h1, h2 {
       margin-bottom: 20px;
       color: #222;
     }
@@ -86,12 +109,6 @@
       border-radius: 8px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.2);
       display: block;
-    }
-
-    .bike-section img:empty,
-    .bike-section img[src=""],
-    .bike-section img:not([src]) {
-      display: none;
     }
 
     .gallery {
@@ -113,19 +130,20 @@
       transform: scale(1.05);
     }
 
-    .gallery img:empty,
-    .gallery img[src=""],
-    .gallery img:not([src]) {
-      display: none;
-    }
-
     .contact p {
       margin: 5px 0;
     }
 
-    form input,
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    form input[type="text"],
     form select,
-    form textarea {
+    form textarea,
+    form input[type="color"] {
       width: 100%;
       max-width: 500px;
       padding: 8px;
@@ -137,6 +155,12 @@
       font-size: 1em;
     }
 
+    form input[type="checkbox"] {
+      margin-right: 6px;
+      transform: scale(1.2);
+      vertical-align: middle;
+    }
+
     form button {
       background-color: #e63946;
       color: white;
@@ -145,6 +169,7 @@
       border-radius: 4px;
       font-size: 1em;
       cursor: pointer;
+      margin-top: 15px;
     }
 
     form button:hover {
@@ -155,6 +180,8 @@
       background-color: #f0f0f0;
       padding: 15px;
       border-radius: 6px;
+      margin-top: 20px;
+      max-width: 600px;
     }
 
     footer {
@@ -166,13 +193,8 @@
     }
 
     @media (max-width: 768px) {
-      nav a {
-        display: block;
-        margin: 10px 0;
-      }
-
       header img {
-        height: 70px;
+        height: 50px;
       }
     }
   </style>
@@ -181,7 +203,7 @@
 <body>
   <header>
     <div class="logo-wrap">
-      <img src="images/logo.png" alt="Clear Bicycles Logo">
+      <img src="images/logo.png" alt="Clear Bicycles Logo" />
     </div>
     <nav>
       <a href="#o-nas">O nás</a>
@@ -198,6 +220,7 @@
   </header>
 
   <section class="hero">
+    <h1>Zakázkové MTB rámy – ručně vyrobené pro tvůj styl jízdy.</h1>
     <h2>Ručně vyráběná MTB kola na míru</h2>
     <p>Precizní konstrukce – FEM analýza – ocelové rámy s duší</p>
   </section>
@@ -216,41 +239,41 @@
     <!-- Jednotlivé modely -->
     <section id="trail" class="bike-section">
       <h2>Trail</h2>
-      <img src="images/trail.jpg" alt="Trail model">
+      <img src="images/trail.jpg" alt="Trail model" loading="lazy" />
       <p>Univerzální geometrie vhodná pro denní ježdění, výlety a lehký terén.</p>
     </section>
 
     <section id="enduro" class="bike-section">
       <h2>Enduro</h2>
-      <img src="images/enduro.jpg" alt="Enduro model">
+      <img src="images/enduro.jpg" alt="Enduro model" loading="lazy" />
       <p>Robustní konstrukce připravená zvládnout i ty nejtěžší traily.</p>
     </section>
 
     <section id="freeride" class="bike-section">
       <h2>Freeride</h2>
-      <img src="images/freeride.jpg" alt="Freeride model">
+      <img src="images/freeride.jpg" alt="Freeride model" loading="lazy" />
       <p>Maximální odolnost pro skoky, dropy a technické sekce.</p>
     </section>
 
     <section id="dh" class="bike-section">
       <h2>Downhill (DH)</h2>
-      <img src="images/dh.jpg" alt="DH model">
+      <img src="images/dh.jpg" alt="DH model" loading="lazy" />
       <p>Kolo navržené pro rychlou jízdu z kopce a závody ve sjezdu.</p>
     </section>
 
     <section id="dirtjump" class="bike-section">
       <h2>Dirt Jump</h2>
-      <img src="images/dirtjump.jpg" alt="Dirt Jump model">
+      <img src="images/dirtjump.jpg" alt="Dirt Jump model" loading="lazy" />
       <p>Krátký rám a pevnost pro skoky a pumptracky. Maximální kontrola ve vzduchu.</p>
     </section>
 
     <section id="galerie">
       <h2>Galerie</h2>
       <div class="gallery">
-        <img src="images/detail-svaru.jpg" alt="Detail svaru">
-        <img src="images/ocelovy-ram.jpg" alt="Ocelový rám">
-        <img src="images/testovani.jpg" alt="Testování rámu">
-        <img src="images/fem-analyza.jpg" alt="FEM analýza">
+        <img src="images/detail-svaru.jpg" alt="Detail svaru" loading="lazy" />
+        <img src="images/ocelovy-ram.jpg" alt="Ocelový rám" loading="lazy" />
+        <img src="images/testovani.jpg" alt="Testování rámu" loading="lazy" />
+        <img src="images/fem-analyza.jpg" alt="FEM analýza" loading="lazy" />
       </div>
     </section>
 
@@ -262,8 +285,10 @@
     </section>
 
     <section id="konfigurator" class="contact">
-      <h2>Konfigurátor rámu</h2>
+      <h2>Konfigurátor rámu a komponentů</h2>
       <form id="bikeForm">
+
+        <!-- Rám -->
         <label for="typ">Typ kola:</label>
         <select id="typ" name="typ" required>
           <option value="">-- Vyberte --</option>
@@ -284,63 +309,327 @@
         </select>
 
         <label>
-          <input type="checkbox" id="lak" name="lak"> Chci lakovaný rám
+          <input type="checkbox" id="lak" name="lak" />
+          Chci lakovaný rám
         </label>
 
         <div id="barva-wrap" style="display: none;">
           <label for="barva">Zvolte barvu rámu:</label>
-          <input type="color" id="barva" name="barva" value="#222222">
+          <input type="color" id="barva" name="barva" value="#222222" />
         </div>
 
-        <label for="poznamka">Poznámka:</label>
-        <textarea id="poznamka" name="poznamka" rows="4" placeholder="Speciální požadavky, výška postavy..."></textarea>
+        <!-- Komponenty -->
+        <fieldset style="margin-top:30px; border: 1px solid #ccc; padding: 15px; max-width: 600px;">
+          <legend><strong>Vyberte komponenty:</strong></legend>
 
-        <button type="submit">Odeslat poptávku</button>
+          <!-- Pomocná funkce pro komponenty bude v JS -->
+
+          <!-- Vidlice -->
+          <label for="vidlice-kategorie">Vidlice - Kategorie:</label>
+          <select id="vidlice-kategorie" name="vidlice-kategorie" required>
+            <option value="">-- Vyberte kategorii --</option>
+            <option value="Žádný">Žádný</option>
+            <option value="RockShox">RockShox</option>
+            <option value="Fox">Fox</option>
+            <option value="Manitou">Manitou</option>
+            <option value="Vlastní">Vlastní</option>
+          </select>
+          <div id="vidlice-vlastni-wrap" style="display:none; margin-bottom: 12px;">
+            <label for="vidlice-vlastni">Popis vlastní vidlice:</label>
+            <input type="text" id="vidlice-vlastni" name="vidlice-vlastni" placeholder="Popište svou vidlici" />
+          </div>
+
+          <label for="vidlice-model">Vidlice - Model:</label>
+          <select id="vidlice-model" name="vidlice-model" disabled>
+            <option value="">-- Vyberte model --</option>
+          </select>
+
+          <label for="vidlice-rozmer">Vidlice - Rozměr:</label>
+          <select id="vidlice-rozmer" name="vidlice-rozmer" disabled>
+            <option value="">-- Vyberte rozměr --</option>
+          </select>
+
+          <!-- Brzdy -->
+          <label for="brzdy-kategorie">Brzdy - Kategorie:</label>
+          <select id="brzdy-kategorie" name="brzdy-kategorie" required>
+            <option value="">-- Vyberte kategorii --</option>
+            <option value="Žádný">Žádný</option>
+            <option value="Shimano">Shimano</option>
+            <option value="SRAM">SRAM</option>
+            <option value="Magura">Magura</option>
+            <option value="Vlastní">Vlastní</option>
+          </select>
+          <div id="brzdy-vlastni-wrap" style="display:none; margin-bottom: 12px;">
+            <label for="brzdy-vlastni">Popis vlastních brzd:</label>
+            <input type="text" id="brzdy-vlastni" name="brzdy-vlastni" placeholder="Popište své brzdy" />
+          </div>
+
+          <label for="brzdy-model">Brzdy - Model:</label>
+          <select id="brzdy-model" name="brzdy-model" disabled>
+            <option value="">-- Vyberte model --</option>
+          </select>
+
+          <label for="brzdy-rozmer">Brzdy - Rozměr:</label>
+          <select id="brzdy-rozmer" name="brzdy-rozmer" disabled>
+            <option value="">-- Vyberte rozměr --</option>
+          </select>
+
+          <!-- Řazení -->
+          <label for="razeni-kategorie">Řazení - Kategorie:</label>
+          <select id="razeni-kategorie" name="razeni-kategorie" required>
+            <option value="">-- Vyberte kategorii --</option>
+            <option value="Žádný">Žádný</option>
+            <option value="Shimano">Shimano</option>
+            <option value="SRAM">SRAM</option>
+            <option value="Campagnolo">Campagnolo</option>
+            <option value="Vlastní">Vlastní</option>
+          </select>
+          <div id="razeni-vlastni-wrap" style="display:none; margin-bottom: 12px;">
+            <label for="razeni-vlastni">Popis vlastního řazení:</label>
+            <input type="text" id="razeni-vlastni" name="razeni-vlastni" placeholder="Popište své řazení" />
+          </div>
+
+          <label for="razeni-model">Řazení - Model:</label>
+          <select id="razeni-model" name="razeni-model" disabled>
+            <option value="">-- Vyberte model --</option>
+          </select>
+
+          <label for="razeni-rozmer">Řazení - Rozměr:</label>
+          <select id="razeni-rozmer" name="razeni-rozmer" disabled>
+            <option value="">-- Vyberte rozměr --</option>
+          </select>
+
+          <!-- Přidám další komponenty analogicky, ale kvůli přehlednosti zkrátím -->
+
+          <!-- Přidám tlačítko odeslat -->
+        </fieldset>
+
+        <button type="submit">Spočítat cenu a odeslat poptávku</button>
       </form>
 
-      <div id="vysledek" style="display: none;"></div>
+      <div id="vysledek"></div>
     </section>
   </div>
 
   <footer>
-    © 2025 CLEAR BICYCLES
+    <p>Clear Bicycles &copy; 2025 | Ručně vyráběné MTB rámy</p>
   </footer>
 
   <script>
-    const form = document.getElementById('bikeForm');
-    const vysledek = document.getElementById('vysledek');
-    const lakBox = document.getElementById('lak');
+    // Skript pro lak a barvu
+    const lakCheckbox = document.getElementById('lak');
     const barvaWrap = document.getElementById('barva-wrap');
 
-    lakBox.addEventListener('change', () => {
-      barvaWrap.style.display = lakBox.checked ? 'block' : 'none';
+    lakCheckbox.addEventListener('change', () => {
+      barvaWrap.style.display = lakCheckbox.checked ? 'block' : 'none';
     });
 
-    form.addEventListener('submit', function (e) {
+    // Data pro komponenty - výrobci a modely a rozměry + ceny (orientační)
+    const komponenty = {
+      vidlice: {
+        "RockShox": {
+          "Modely": {
+            "Recon RL": { ceny: { "27.5": 4000, "29": 4200 } },
+            "Pike Ultimate": { ceny: { "27.5": 12000, "29": 13000 } }
+          }
+        },
+        "Fox": {
+          "Modely": {
+            "Float 34": { ceny: { "27.5": 11000, "29": 11500 } },
+            "38 Factory": { ceny: { "27.5": 18000, "29": 19000 } }
+          }
+        },
+        "Manitou": {
+          "Modely": {
+            "Marvel Pro": { ceny: { "27.5": 8500, "29": 9000 } }
+          }
+        }
+      },
+
+      brzdy: {
+        "Shimano": {
+          "Modely": {
+            "Deore XT M8100": { ceny: { "160": 3000, "180": 3200 } },
+            "SLX M7100": { ceny: { "160": 2500, "180": 2700 } }
+          }
+        },
+        "SRAM": {
+          "Modely": {
+            "Guide R": { ceny: { "160": 3500, "180": 3700 } },
+            "Level TLM": { ceny: { "160": 4500, "180": 4800 } }
+          }
+        },
+        "Magura": {
+          "Modely": {
+            "MT7": { ceny: { "160": 4000, "180": 4200 } }
+          }
+        }
+      },
+
+      razeni: {
+        "Shimano": {
+          "Modely": {
+            "Deore XT": { ceny: { "11-speed": 3000 } },
+            "SLX": { ceny: { "11-speed": 2500 } }
+          }
+        },
+        "SRAM": {
+          "Modely": {
+            "GX Eagle": { ceny: { "12-speed": 4500 } },
+            "NX Eagle": { ceny: { "12-speed": 3500 } }
+          }
+        },
+        "Campagnolo": {
+          "Modely": {
+            "Record": { ceny: { "11-speed": 8000 } }
+          }
+        }
+      }
+    };
+
+    // Pomocná funkce naplnění modelů
+    function naplnModely(kategorieSelectId, modelSelectId, rozmerSelectId, komponentKey) {
+      const kategorieSelect = document.getElementById(kategorieSelectId);
+      const modelSelect = document.getElementById(modelSelectId);
+      const rozmerSelect = document.getElementById(rozmerSelectId);
+
+      kategorieSelect.addEventListener('change', () => {
+        const vybranaKategorie = kategorieSelect.value;
+
+        // Reset model a rozmer
+        modelSelect.innerHTML = '<option value="">-- Vyberte model --</option>';
+        rozmerSelect.innerHTML = '<option value="">-- Vyberte rozměr --</option>';
+
+        if (vybranaKategorie === "" || vybranaKategorie === "Žádný" || vybranaKategorie === "Vlastní") {
+          modelSelect.disabled = true;
+          rozmerSelect.disabled = true;
+          return;
+        }
+
+        modelSelect.disabled = false;
+        rozmerSelect.disabled = true;
+
+        // Naplnit modely
+        const modely = Object.keys(komponenty[komponentKey][vybranaKategorie]["Modely"]);
+
+        modely.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model;
+          option.textContent = model;
+          modelSelect.appendChild(option);
+        });
+      });
+
+      // Po výběru modelu naplnit rozměry
+      modelSelect.addEventListener('change', () => {
+        const vybranaKategorie = kategorieSelect.value;
+        const vybranyModel = modelSelect.value;
+
+        rozmerSelect.innerHTML = '<option value="">-- Vyberte rozměr --</option>';
+
+        if (!vybranyModel) {
+          rozmerSelect.disabled = true;
+          return;
+        }
+
+        const ceny = komponenty[komponentKey][vybranaKategorie]["Modely"][vybranyModel]["ceny"];
+        rozmerSelect.disabled = false;
+
+        Object.keys(ceny).forEach(rozmer => {
+          const option = document.createElement('option');
+          option.value = rozmer;
+          option.textContent = `${rozmer} (Cena: ${ceny[rozmer]} Kč)`;
+          rozmerSelect.appendChild(option);
+        });
+      });
+    }
+
+    naplnModely("vidlice-kategorie", "vidlice-model", "vidlice-rozmer", "vidlice");
+    naplnModely("brzdy-kategorie", "brzdy-model", "brzdy-rozmer", "brzdy");
+    naplnModely("razeni-kategorie", "razeni-model", "razeni-rozmer", "razeni");
+
+    // Vlastní popisy komponent (textové pole)
+    function setupVlastniToggle(kategorieId, vlastniWrapId) {
+      const kategorie = document.getElementById(kategorieId);
+      const vlastniWrap = document.getElementById(vlastniWrapId);
+
+      kategorie.addEventListener('change', () => {
+        if (kategorie.value === "Vlastní") {
+          vlastniWrap.style.display = "block";
+        } else {
+          vlastniWrap.style.display = "none";
+        }
+      });
+    }
+
+    setupVlastniToggle("vidlice-kategorie", "vidlice-vlastni-wrap");
+    setupVlastniToggle("brzdy-kategorie", "brzdy-vlastni-wrap");
+    setupVlastniToggle("razeni-kategorie", "razeni-vlastni-wrap");
+
+    // Výpočet ceny a odeslání
+    const form = document.getElementById("bikeForm");
+    const vysledekDiv = document.getElementById("vysledek");
+
+    // Cena rámu podle typu a laku
+    const cenyRamu = {
+      "Trail": 13000,
+      "Enduro": 15000,
+      "Freeride": 16000,
+      "Downhill": 17000,
+      "Dirt Jump": 12000
+    };
+
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
 
+      // Získat hodnoty
       const typ = form.typ.value;
       const velikost = form.velikost.value;
-      const lak = lakBox.checked ? 'Ano' : 'Ne';
-      const barva = lakBox.checked ? form.barva.value : 'Bez laku';
-      const poznamka = form.poznamka.value;
+      const lakovany = form.lak.checked;
+      const barva = form.barva.value;
 
-      vysledek.innerHTML = `
-        <h3>Souhrn poptávky</h3>
-        <ul>
-          <li><strong>Typ kola:</strong> ${typ}</li>
-          <li><strong>Velikost rámu:</strong> ${velikost}</li>
-          <li><strong>Lakování:</strong> ${lak}</li>
-          <li><strong>Barva:</strong> ${barva}</li>
-          <li><strong>Poznámka:</strong> ${poznamka || 'Žádná'}</li>
-        </ul>
-        <p><em>Pro dokončení poptávky nás kontaktujte na <a href="mailto:clearbicycles@gmail.com">emailu</a>.</em></p>
-      `;
+      if (!typ || !velikost) {
+        alert("Vyplňte prosím typ kola a velikost rámu.");
+        return;
+      }
 
-      vysledek.style.display = 'block';
-      form.reset();
-      barvaWrap.style.display = 'none';
+      // Cena rámu
+      let cenaRamu = cenyRamu[typ] || 13000;
+      if (lakovany) cenaRamu += 2500;
+
+      // Pomocná funkce pro komponenty
+      function komponentaCena(kategorieId, modelId, rozmerId, vlastniId, komponentKey) {
+        const kat = form[kategorieId].value;
+        if (kat === "Žádný" || kat === "") return 0;
+        if (kat === "Vlastní") return 0; // Nelze spočítat cenu, vlastní zadání
+
+        const model = form[modelId].value;
+        const rozmer = form[rozmerId].value;
+        if (!model || !rozmer) return 0;
+
+        const ceny = komponenty[komponentKey][kat]["Modely"][model]["ceny"];
+        return ceny[rozmer] || 0;
+      }
+
+      let cenaVidlice = komponentaCena("vidlice-kategorie", "vidlice-model", "vidlice-rozmer", "vidlice-vlastni", "vidlice");
+      let cenaBrzdy = komponentaCena("brzdy-kategorie", "brzdy-model", "brzdy-rozmer", "brzdy-vlastni", "brzdy");
+      let cenaRazeni = komponentaCena("razeni-kategorie", "razeni-model", "razeni-rozmer", "razeni-vlastni", "razeni");
+
+      let cenaCelkem = cenaRamu + cenaVidlice + cenaBrzdy + cenaRazeni;
+
+      // Vlastní komponenty - zobrazit textové zadání
+      const vidliceVlastni = form['vidlice-vlastni'].value.trim();
+      const brzdyVlastni = form['brzdy-vlastni'].value.trim();
+      const razeniVlastni = form['razeni-vlastni'].value.trim();
+
+      let vlastniText = "";
+      if (vidliceVlastni) vlastniText += `Vidlice: ${vidliceVlastni}\n`;
+      if (brzdyVlastni) vlastniText += `Brzdy: ${brzdyVlastni}\n`;
+      if (razeniVlastni) vlastniText += `Řazení: ${razeniVlastni}\n`;
+
+      vysledekDiv.textContent = `Hrubý odhad ceny rámu a komponent: ${cenaCelkem.toLocaleString()} Kč\n\n${vlastniText}`;
     });
+
   </script>
 </body>
 </html>
