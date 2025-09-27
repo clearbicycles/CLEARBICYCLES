@@ -568,7 +568,7 @@
     setupVlastniToggle("brzdy-kategorie", "brzdy-vlastni-wrap");
     setupVlastniToggle("razeni-kategorie", "razeni-vlastni-wrap");
 
-    // Výpočet ceny a odeslání
+        // Výpočet ceny a odeslání
     const form = document.getElementById("bikeForm");
     const vysledekDiv = document.getElementById("vysledek");
 
@@ -581,57 +581,96 @@
       "Dirt Jump": 12000
     };
 
+    // Pomocná funkce pro cenu komponent
+    function komponentaCena(kategorieId, modelId, rozmerId, vlastniId, komponentKey) {
+      const kat = form[kategorieId].value;
+      if (kat === "Žádný" || kat === "") return 0;
+      if (kat === "Vlastní") return 0;
+
+      const model = form[modelId].value;
+      const rozmer = form[rozmerId].value;
+      if (!model || !rozmer) return 0;
+
+      const ceny = komponenty[komponentKey][kat]["Modely"][model]["ceny"];
+      return ceny[rozmer] || 0;
+    }
+
+    // Detailní informace o komponentě
+    function komponentaDetail(kategorieId, modelId, rozmerId, vlastniId, komponentKey) {
+      const kat = form[kategorieId].value;
+      if (kat === "Žádný" || kat === "") return null;
+      if (kat === "Vlastní") {
+        const vlastni = form[vlastniId].value.trim();
+        return vlastni ? `Vlastní: ${vlastni}` : null;
+      }
+
+      const model = form[modelId].value;
+      const rozmer = form[rozmerId].value;
+      const cena = komponenty[komponentKey][kat]["Modely"][model]["ceny"][rozmer];
+
+      return `${kat} - ${model} (${rozmer}) - ${cena} Kč`;
+    }
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Získat hodnoty
       const typ = form.typ.value;
       const velikost = form.velikost.value;
       const lakovany = form.lak.checked;
       const barva = form.barva.value;
+      const poznamky = form.poznamky ? form.poznamky.value.trim() : "";
 
       if (!typ || !velikost) {
         alert("Vyplňte prosím typ kola a velikost rámu.");
         return;
       }
 
-      // Cena rámu
       let cenaRamu = cenyRamu[typ] || 13000;
       if (lakovany) cenaRamu += 2500;
 
-      // Pomocná funkce pro komponenty
-      function komponentaCena(kategorieId, modelId, rozmerId, vlastniId, komponentKey) {
-        const kat = form[kategorieId].value;
-        if (kat === "Žádný" || kat === "") return 0;
-        if (kat === "Vlastní") return 0; // Nelze spočítat cenu, vlastní zadání
+      const vidliceDetail = komponentaDetail("vidlice-kategorie", "vidlice-model", "vidlice-rozmer", "vidlice-vlastni", "vidlice");
+      const brzdyDetail = komponentaDetail("brzdy-kategorie", "brzdy-model", "brzdy-rozmer", "brzdy-vlastni", "brzdy");
+      const razeniDetail = komponentaDetail("razeni-kategorie", "razeni-model", "razeni-rozmer", "razeni-vlastni", "razeni");
 
-        const model = form[modelId].value;
-        const rozmer = form[rozmerId].value;
-        if (!model || !rozmer) return 0;
+      const cenaVidlice = komponentaCena("vidlice-kategorie", "vidlice-model", "vidlice-rozmer", "vidlice-vlastni", "vidlice");
+      const cenaBrzdy = komponentaCena("brzdy-kategorie", "brzdy-model", "brzdy-rozmer", "brzdy-vlastni", "brzdy");
+      const cenaRazeni = komponentaCena("razeni-kategorie", "razeni-model", "razeni-rozmer", "razeni-vlastni", "razeni");
 
-        const ceny = komponenty[komponentKey][kat]["Modely"][model]["ceny"];
-        return ceny[rozmer] || 0;
+      const cenaCelkem = cenaRamu + cenaVidlice + cenaBrzdy + cenaRazeni;
+
+      // Barva jako RGB (přes dočasný prvek)
+      let rgbText = '';
+      if (lakovany && barva) {
+        const temp = document.createElement("div");
+        temp.style.color = barva;
+        document.body.appendChild(temp);
+        const computedColor = getComputedStyle(temp).color;
+        document.body.removeChild(temp);
+        rgbText = computedColor;
       }
 
-      let cenaVidlice = komponentaCena("vidlice-kategorie", "vidlice-model", "vidlice-rozmer", "vidlice-vlastni", "vidlice");
-      let cenaBrzdy = komponentaCena("brzdy-kategorie", "brzdy-model", "brzdy-rozmer", "brzdy-vlastni", "brzdy");
-      let cenaRazeni = komponentaCena("razeni-kategorie", "razeni-model", "razeni-rozmer", "razeni-vlastni", "razeni");
+      const vystup = `
+TYP RÁMU: ${typ}
+VELIKOST: ${velikost}
+LAK: ${lakovany ? "Ano" : "Ne"}
+BARVA: ${lakovany ? `${barva} (RGB: ${rgbText})` : "Bez laku"}
 
-      let cenaCelkem = cenaRamu + cenaVidlice + cenaBrzdy + cenaRazeni;
+KOMPONENTY:
+Vidlice: ${vidliceDetail || "Bez"}
+Brzdy: ${brzdyDetail || "Bez"}
+Řazení: ${razeniDetail || "Bez"}
 
-      // Vlastní komponenty - zobrazit textové zadání
-      const vidliceVlastni = form['vidlice-vlastni'].value.trim();
-      const brzdyVlastni = form['brzdy-vlastni'].value.trim();
-      const razeniVlastni = form['razeni-vlastni'].value.trim();
+POZNÁMKY:
+${poznamky || "Žádné"}
 
-      let vlastniText = "";
-      if (vidliceVlastni) vlastniText += `Vidlice: ${vidliceVlastni}\n`;
-      if (brzdyVlastni) vlastniText += `Brzdy: ${brzdyVlastni}\n`;
-      if (razeniVlastni) vlastniText += `Řazení: ${razeniVlastni}\n`;
+CENA CELKEM: ${cenaCelkem.toLocaleString()} Kč
+`.trim();
 
-      vysledekDiv.textContent = `Hrubý odhad ceny rámu a komponent: ${cenaCelkem.toLocaleString()} Kč\n\n${vlastniText}`;
+      vysledekDiv.innerHTML = `
+        <label for="vystup-text">Zkopírujte a odešlete na e-mail:</label><br>
+        <textarea id="vystup-text" rows="14" style="width: 100%;">${vystup}</textarea>
+      `;
     });
-
   </script>
 </body>
 </html>
