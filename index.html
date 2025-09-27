@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLEAR BICYCLES</title>
+  <title>Zakázkové MTB rámy – ručně vyrobené pro tvůj styl jízdy.</title>
+  <meta name="description" content="Ručně vyráběná zakázková MTB kola z oceli. Český výrobce – precizní design, FEM analýza, maximální funkčnost.">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
   <style>
     body {
       margin: 0;
@@ -28,6 +31,7 @@
 
     header img {
       height: 100px;
+      max-width: 100%;
     }
 
     nav {
@@ -102,6 +106,11 @@
       max-width: 350px;
       border-radius: 8px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
     }
 
     .gallery img:empty,
@@ -114,6 +123,40 @@
       margin: 5px 0;
     }
 
+    form input,
+    form select,
+    form textarea {
+      width: 100%;
+      max-width: 500px;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1em;
+    }
+
+    form button {
+      background-color: #e63946;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #c72636;
+    }
+
+    #vysledek {
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 6px;
+    }
+
     footer {
       background: #111;
       color: #ddd;
@@ -121,8 +164,20 @@
       padding: 15px;
       margin-top: 30px;
     }
+
+    @media (max-width: 768px) {
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+
+      header img {
+        height: 70px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="logo-wrap">
@@ -138,6 +193,7 @@
       <a href="#dirtjump">Dirt Jump</a>
       <a href="#galerie">Galerie</a>
       <a href="#kontakt">Kontakt</a>
+      <a href="#konfigurator">Konfigurátor</a>
     </nav>
   </header>
 
@@ -204,10 +260,87 @@
       <p><strong>Telefon:</strong> <a href="tel:+420607835202">+420 607 835 202</a></p>
       <p><strong>Adresa dílny:</strong> Praha – Česká republika</p>
     </section>
+
+    <section id="konfigurator" class="contact">
+      <h2>Konfigurátor rámu</h2>
+      <form id="bikeForm">
+        <label for="typ">Typ kola:</label>
+        <select id="typ" name="typ" required>
+          <option value="">-- Vyberte --</option>
+          <option value="Trail">Trail</option>
+          <option value="Enduro">Enduro</option>
+          <option value="Freeride">Freeride</option>
+          <option value="Downhill">Downhill</option>
+          <option value="Dirt Jump">Dirt Jump</option>
+        </select>
+
+        <label for="velikost">Velikost rámu:</label>
+        <select id="velikost" name="velikost" required>
+          <option value="">-- Vyberte --</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+
+        <label>
+          <input type="checkbox" id="lak" name="lak"> Chci lakovaný rám
+        </label>
+
+        <div id="barva-wrap" style="display: none;">
+          <label for="barva">Zvolte barvu rámu:</label>
+          <input type="color" id="barva" name="barva" value="#222222">
+        </div>
+
+        <label for="poznamka">Poznámka:</label>
+        <textarea id="poznamka" name="poznamka" rows="4" placeholder="Speciální požadavky, výška postavy..."></textarea>
+
+        <button type="submit">Odeslat poptávku</button>
+      </form>
+
+      <div id="vysledek" style="display: none;"></div>
+    </section>
   </div>
 
   <footer>
     © 2025 CLEAR BICYCLES
   </footer>
+
+  <script>
+    const form = document.getElementById('bikeForm');
+    const vysledek = document.getElementById('vysledek');
+    const lakBox = document.getElementById('lak');
+    const barvaWrap = document.getElementById('barva-wrap');
+
+    lakBox.addEventListener('change', () => {
+      barvaWrap.style.display = lakBox.checked ? 'block' : 'none';
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const typ = form.typ.value;
+      const velikost = form.velikost.value;
+      const lak = lakBox.checked ? 'Ano' : 'Ne';
+      const barva = lakBox.checked ? form.barva.value : 'Bez laku';
+      const poznamka = form.poznamka.value;
+
+      vysledek.innerHTML = `
+        <h3>Souhrn poptávky</h3>
+        <ul>
+          <li><strong>Typ kola:</strong> ${typ}</li>
+          <li><strong>Velikost rámu:</strong> ${velikost}</li>
+          <li><strong>Lakování:</strong> ${lak}</li>
+          <li><strong>Barva:</strong> ${barva}</li>
+          <li><strong>Poznámka:</strong> ${poznamka || 'Žádná'}</li>
+        </ul>
+        <p><em>Pro dokončení poptávky nás kontaktujte na <a href="mailto:clearbicycles@gmail.com">emailu</a>.</em></p>
+      `;
+
+      vysledek.style.display = 'block';
+      form.reset();
+      barvaWrap.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
